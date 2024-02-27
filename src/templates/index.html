@@ -1,0 +1,298 @@
+<!-- templates/index.html -->
+<!doctype html>
+<html>
+  <head>
+    <title>Fake News Detector</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        height: 100wh;
+      }
+
+      .container {
+        gap: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        max-height: 100%;
+        margin-top: 50px;
+        background-color: #fff;
+        margin-bottom: 50px;
+      }
+
+      .container__input {
+        width: 100%;
+        max-width: 100%;
+        gap: 31px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .container__input__header {
+        max-width: 100%;
+        width: 1400px;
+        display: flex;
+      }
+
+      .container__input__header--title,
+      .container__output__header--title {
+        width: 100%;
+        max-width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #020cff;
+        text-align: center;
+        font-family: Josefin Sans;
+        font-size: 50px;
+        font-style: italic;
+        font-weight: 500;
+        line-height: normal;
+        text-transform: capitalize;
+      }
+
+      .container__input__header--logo {
+        display: flex;
+        justify-content: flex-end;
+        align-self: flex-end;
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+      }
+
+      form {
+        padding: 46px 50px 50px 50px;
+        gap: 31px;
+        max-width: 100%;
+        width: 1400px;
+        border-radius: 15px;
+        border: 2px solid #999;
+        background: #6497fa;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      button {
+        padding: 8px 16px;
+        border-radius: 15px;
+        background-color: #fff;
+
+        cursor: pointer;
+        user-select: none;
+
+        color: #000;
+        text-align: center;
+        font-family: Josefin Sans;
+        font-size: 24px;
+        font-style: italic;
+        font-weight: 500;
+        line-height: normal;
+        text-transform: capitalize;
+      }
+
+      button:hover,
+      button:focus {
+        background-color: #ccc;
+        color: #fff;
+        outline: none;
+      }
+
+      button:active {
+        background-color: #888;
+        color: #fff;
+      }
+
+      textarea {
+        width: 100%;
+        height: 150px;
+        max-width: 100%;
+        border-radius: 15px;
+        border: 2px solid #000;
+        padding: 16px;
+        resize: vertical;
+        overflow: auto;
+
+        color: #000;
+        font-size: 20px;
+        font-weight: 500;
+        line-height: normal;
+        text-align: justify;
+      }
+
+      .text {
+        color: #000;
+        font-size: 20px;
+        font-weight: 500;
+        line-height: normal;
+        text-align: justify;
+      }
+
+      textarea:nth-child(1) {
+        height: 150px;
+      }
+
+      label {
+        color: #000;
+        font-size: 24px;
+        font-weight: 500;
+        line-height: normal;
+      }
+
+      .form__item {
+        width: 100%;
+        max-width: 100%;
+        gap: 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .container__output__header {
+        max-width: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .container__output__header--back {
+        color: #000;
+        font-size: 24px;
+        font-weight: normal;
+        line-height: normal;
+        cursor: pointer;
+        user-select: none;
+        font-style: normal;
+      }
+
+      .container__output {
+        width: 1400px;
+        max-width: 100%;
+        gap: 31px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .container__output__form {
+        width: 100%;
+        max-width: 100%;
+        background-color: #6497fa;
+        border-radius: 15px;
+        border: 2px solid #999;
+        padding: 50px;
+      }
+
+      .container__output__result {
+        /* display: flex; */
+        align-items: center;
+        justify-content: center;
+        border-radius: 15px;
+        border: 2px solid #000;
+        background: #ccc;
+        flex-shrink: 0;
+        text-align: center;
+        width: 50%;
+        max-width: 100%;
+        color: #000;
+        font-size: 24px;
+        font-weight: 500;
+        line-height: normal;
+        font-style: normal;
+      }
+
+      .container__output__form--container {
+        gap: 16px;
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 16px;
+        width: 100%;
+        background-color: #fff;
+        border-radius: 15px;
+        border: 2px solid #000;
+        max-width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="container__input">
+        <div class="container__input__header">
+          <div class="container__input__header--title">Fake News Detector</div>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/3/38/Logo_UIT_updated.jpg"
+            alt="logo"
+            class="container__input__header--logo"
+          />
+        </div>
+        <form action="/predict" method="POST">
+          <div class="form__item">
+            <label for="title" class="myClass">Enter title of the news:</label>
+            <textarea
+              name="title"
+              placeholder="Enter input"
+              required
+            ></textarea>
+          </div>
+
+          <div class="form__item">
+            <label for="tag">Enter Tag of the news:</label>
+            <textarea name="tag" placeholder="Enter input" required></textarea>
+          </div>
+
+          <div class="form__item">
+            <label for="content">Enter content of the news:</label>
+            <textarea
+              name="content"
+              placeholder="Enter input"
+              required
+            ></textarea>
+          </div>
+
+          <button type="submit">Predict</button>
+        </form>
+      </div>
+  
+      <div id="container__output" class="container__output" > 
+        <div class="container__output__header">
+          <div class="container__output__header--title">The result</div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Logo_UIT_updated.jpg" alt="logo" class="container__input__header--logo" />
+        </div>
+
+        <div class="container__output__form">
+          <div class="container__output__form--container">
+            <div class="text"><b>Title: </b>{{news_title}}</div>
+            <div class="text"><b>Tag: </b>{{news_tag}}</div>
+            <div class="text"><b>Content: </b>{{news_content}}</div>
+          </div>
+        </div>
+
+        <div class="container__output__result">
+          <p id="predict">{{ prediction }}</p>
+        </div>
+      </div>
+    </div>
+    <script>
+      var prediction = document.getElementById("predict").textContent
+      var a = document.getElementById("container__output")
+      if (prediction !== "None"){
+        a.style.display ='block'
+      }
+      else{
+        a.style.display  = 'none'
+      }
+    </script>
+  </body>
+</html>
